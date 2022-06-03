@@ -1,62 +1,55 @@
 #include<stdio.h>
-#include<string.h>
-#include<conio.h>
-#include <stdlib.h>
-#include <math.h>
 
 #pragma warning(disable:4996)
 #pragma warning(disable:6031)
 
 void computerchoose(struct data* choose, int* computer);
+void winlose();
 
-struct data
-{
+int playerwin = 0, computerwin = 0;		//컴퓨터와 플레이어의 이긴횟수를 카운트
+
+struct data {		//플레이어의 다음나올수를 카운트 하는 구조체
 	int rockcnt;
 	int papercnt;
 	int scissorcnt;
 };
 
 int main(){
-	struct data rock = { .rockcnt = 0, .papercnt = 0, .scissorcnt = 0 };
-	struct data paper = { .rockcnt = 0, .papercnt = 0, .scissorcnt = 0 };
-	struct data scissor = { .rockcnt = 0, .papercnt = 0, .scissorcnt = 0 };
-	int computer=1,player;
+	struct data rock, paper,scissor;	//플레이어의 다음수를 카운트하기위한 구조체 생성
+	int computer = 1, player;		//컴퓨터의 선택과 플레이어의 선택을 저장하는 변수
 
-	while (1)
-	{
-		printf("1(rock) 2(paper) 3(scissor) : ");
-		scanf("%d", &player);
-		if (computer == 1)
+	while (1){
+		printf("1(rock) 2(paper) 3(scissor) : ");	//GUI
+		scanf("%d", &player);						//플레이어 턴
+
+		if (computer == 1) {					
 			computerchoose(&rock, &computer);
-		else if (computer == 2)
+			winlose();
+		}
+		else if (computer == 2) {
 			computerchoose(&paper, &computer);
-		else
+			winlose();
+		}
+		else {
 			computerchoose(&scissor, &computer);
-
-		printf("구조체rock의 변수들: %d, %d, %d", rock.papercnt, rock.rockcnt, rock.scissorcnt);
-		pritnf("구조체paper의 변수들: %d, %d, %d", paper.papercnt, paper.rockcnt, paper.scissorcnt);
-		pritnf("구조체scissor의 변수들: %d, %d, %d", scissor.papercnt, scissor.rockcnt, scissor.scissorcnt);
+			winlose();
+		}
 	}
 	return 0;
 }
 
-void computerchoose(struct data *choose,int *computer)
-{
-	if (choose->papercnt > choose->rockcnt){
-		if (choose->papercnt > choose->scissorcnt){
-			*computer = 1;
-			choose->papercnt++;
-		}	
-	}
-	else {
-		if (choose->rockcnt > choose->scissorcnt) {
-			*computer = 2;
-			choose->rockcnt++;
-		}
-		else {
-			*computer = 3;
-			choose->scissorcnt++;
-		}	
-	}
+void winlose() {
+
 }
 
+void computerchoose(struct data *choose,int *computer){		//상대가 낸 수를 맞추어 바꾸는 함수
+	if (choose->papercnt > choose->rockcnt)
+		if (choose->papercnt > choose->scissorcnt)
+			*computer = 1;
+	else{
+		if (choose->rockcnt > choose->scissorcnt)
+			*computer = 2;
+		else 
+			*computer = 3;
+	}
+}
